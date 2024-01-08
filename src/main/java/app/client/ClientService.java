@@ -38,16 +38,19 @@ public class ClientService {
         if (name.length() < MIN_NAME_LENGTH || name.length() > MAX_NAME_LENGTH) {
             throw new SQLException("Invalid name length");
         }
+
         createSt.setString(1, name);
         createSt.executeUpdate();
-        long id;
-        try (ResultSet rs = selectMaxIdSt.executeQuery()) {
-            rs.next();
-             id = rs.getLong("maxId");
-        }
-        return id;
 
+        try (ResultSet generatedKeys = createSt.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                return generatedKeys.getLong(1);
+            } else {
+                throw new SQLException("Failed to retrieve generated key.");
+            }
+        }
     }
+
     public String getById(long id) throws SQLException {
         getByIdSt.setLong(1, id);
 

@@ -13,7 +13,6 @@ public class ClientService {
     private PreparedStatement setNameSt;
     private PreparedStatement deleteByIdSt;
     private PreparedStatement listAllSt;
-    private PreparedStatement selectMaxIdSt;
     private PreparedStatement clearSt;
     private static int MIN_NAME_LENGTH = 2;
     private static int MAX_NAME_LENGTH = 30;
@@ -26,7 +25,6 @@ public class ClientService {
             setNameSt = connection.prepareStatement("UPDATE client SET name = ? WHERE id = ?");
             deleteByIdSt = connection.prepareStatement("DELETE FROM client WHERE id = ?");
             listAllSt = connection.prepareStatement("SELECT * FROM client");
-            selectMaxIdSt = connection.prepareStatement("SELECT max(id) AS maxId FROM client");
             clearSt = connection.prepareStatement("DELETE FROM client");
 
         } catch (SQLException ex) {
